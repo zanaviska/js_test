@@ -1,6 +1,5 @@
 'use strict';
 
-if(1 == 2)
-  console.log(true);
+const func = a => a+1;
 
-console.log([1, 2, 3, 4, 5]);
+module.exports.unc = func;
