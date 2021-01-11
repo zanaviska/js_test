@@ -18,6 +18,7 @@
   "homepage": "https://github.com/zanaviska/js_test#readme",
   "devDependencies": {
     "eslint": "^7.17.0",
+    "eslint-config-google": "^0.14.0",
     "jest": "^26.6.3"
   }
 }
