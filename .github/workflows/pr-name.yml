@@ -37,7 +37,7 @@ jobs:
         uses: ninosaurus/eslint-check@v5
         with:
           eslint-config-path: "../../.eslintrc.json"
-          custom-directory: "./application"
+          custom-directory: "."
           repo-token: ${{secrets.GITHUB_TOKEN}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
