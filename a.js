@@ -1,5 +1,5 @@
 'use strict';
 
-const func = a => a+1;
+const inc = a => a+1;
 
-module.exports.unc = func;
+module.exports.inc = inc;
