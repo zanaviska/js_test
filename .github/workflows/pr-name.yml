@@ -67,7 +67,7 @@ jobs:
           repo-token: ${{secrets.GITHUB_TOKEN}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-prettier:
+  prettier:
     runs-on: ubuntu-latest
 
     steps:
