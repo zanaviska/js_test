@@ -1,24 +1,40 @@
 name: PR Lint
 
-on:
-  pull_request:
-    # By default, a workflow only runs when a pull_request's activity type is opened, synchronize, or reopened. We
-    # explicity override here so that PR titles are re-linted when the PR text content is edited.
-    #
-    # Possible values: https://help.github.com/en/actions/reference/events-that-trigger-workflows#pull-request-event-pull_request
-    types: [opened, edited, reopened]
+name: PR Lint
 
+on: [pull_request]
 
 jobs:
-  pr-lint:
+  lint:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+
     steps:
-      - uses: morrisoncole/pr-lint-action@v1.5.0
+      - uses: actions/checkout@v1
         with:
-          title-regex: "#[eE][xX]-[0-9]+"
-          on-failed-regex-fail-action: false
-          on-failed-regex-request-changes: false
-          on-failed-regex-create-review: true
-          on-failed-regex-comment:
-            "This is just an example. Failed regex: `%regex%`!"
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          fetch-depth: 1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: npm login
+        run:
+          npm config set //registry.npmjs.org/:_authToken=$NPM_READONLY_AUTH_TOKEN
+        env:
+          NPM_READONLY_AUTH_TOKEN: ${{ secrets.NPM_READONLY_AUTH_TOKEN }}
+
+      - name: npm install
+        working-directory: ./application
+        run: npm i --ignore-scripts
+
+      - name: Run ESLint
+        uses: ninosaurus/eslint-check@v5
+        with:
+          eslint-config-path: "./.eslintrc.json"
+          custom-directory: "./application"
+          repo-token: ${{secrets.GITHUB_TOKEN}}s
