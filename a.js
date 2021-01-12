@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const inc = (a) => a + 1;
 
